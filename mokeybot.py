@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 # Unused imports: datetime, random, json, asyncio
 
 # Gets mokeybot.py file location for future reference
-#file_location = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+file_location = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
 # Loads .env variables (not uploaded to github for obvious reasons)
 load_dotenv()
@@ -21,6 +21,13 @@ def send_msg(msg):
     emb = discord.Embed(title=None, description=msg,color=0x957530)
     return emb
 
+# Attempts to load bonktracker module
+try:
+    bot.load_extension('bonktracker')
+    print("Loaded bonktracker.py")
+except:
+    print("Error loading bonktracker, bonktracker.py not found")
+
 # Logs in bot
 @bot.event
 async def on_ready():
@@ -29,16 +36,6 @@ async def on_ready():
     print('-----')
     # Unused command to change status on discord
     # await bot.change_presence(activity=discord.Game(name=""))
-
-# Creates new bot command for bonk
-@bot.command(
-    help="Send someone to horny jail",
-    brief="Send someone to horny jail"
-)
-async def bonk(ctx, members: commands.Greedy[discord.Member]):
-    bonked = ", ".join(x.name for x in members)
-    resp = f'{bonked} just got bonked!'
-    await ctx.send(embed = send_msg(resp))
 
 # Shows source for bot
 @bot.command(
