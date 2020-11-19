@@ -44,7 +44,7 @@ class Bonktracker(commands.Cog):
                 bonktracker[primary_id] = 0
             bonktracker[primary_id] += 1
             primary_id = str(member.id)
-            resp += f'{str(member)[:-5]} has been bonked {str(bonktracker[primary_id])} times'
+            resp += f'{str(member)[:-5]} has been bonked {str(bonktracker[primary_id])} time(s)\n'
         _save()
         await ctx.send(embed = send_msg(resp))
 
