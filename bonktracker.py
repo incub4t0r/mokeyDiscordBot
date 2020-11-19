@@ -5,6 +5,7 @@ file_location = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__fil
 
 global bonktracker
 
+# Attempts to load in bonktracker.json
 try:
     with open(os.path.join(file_location, 'bonktracker.json')) as f:
         bonktracker = json.load(f)
@@ -13,14 +14,17 @@ except:
     print("Could not load bonktracker.json")
     bonktracker = {}
 
+# Creates forcible save option
 def _save():
         with open(os.path.join(file_location, 'bonktracker.json'), 'w+') as f:
             json.dump(bonktracker, f)
 
+# Creates easy embed function
 def send_msg(msg):
     emb = discord.Embed(title=None, description=msg,color=0x957530)
     return emb
 
+# Creates class Bonktracker
 class Bonktracker(commands.Cog):
     @commands.command(
         help = "Force the bot to save bonks",
@@ -48,8 +52,8 @@ class Bonktracker(commands.Cog):
         _save()
         await ctx.send(embed = send_msg(resp))
 
-
 # https://discordpy.readthedocs.io/en/latest/faq.html#how-do-i-send-a-dm
 # for future bonk dms
+
 def setup(bot):
     bot.add_cog(Bonktracker(bot))

@@ -3,6 +3,7 @@ from discord.ext import commands
 from dotenv import load_dotenv
 # Unused imports: datetime, random, json, asyncio
 
+### SETUP ###
 # Gets mokeybot.py file location for future reference
 file_location = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
@@ -28,6 +29,7 @@ try:
 except:
     print("Error loading bonktracker, bonktracker.py not found")
 
+### COMMANDS ###
 # Logs in bot
 @bot.event
 async def on_ready():
@@ -45,6 +47,35 @@ async def on_ready():
 async def source(ctx):
     resp = 'https://github.com/incub4t0r/mokeyDiscordBot'
     await ctx.send(embed = send_msg(resp))
+
+# Ping pong
+@bot.command(
+    help = "Utilizes 1337 coding to determine correct response and latency",
+    brief = "Prints pong and latency"
+)
+async def ping(ctx):
+    resp = f'Pong! {bot.latency}'
+    await ctx.send(embed = send_msg(resp))
+
+# Prints message back, simon says
+@bot.command(
+    help = "Parses using a for loop an entire message and returns it",
+    brief = "Prints your message back"
+)
+async def echo(ctx, *args):
+    resp = ""
+    for arg in args:
+        resp = resp + " " + arg
+    await ctx.send(embed = send_msg(resp))
+
+# Catches command errors
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandNotFound):
+        await ctx.send(embed = send_msg("No such command, use !help to view commands"))
+    else:
+        raise error
+
 
 bot.run(TOKEN)
 
