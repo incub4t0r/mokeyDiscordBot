@@ -1,12 +1,13 @@
 import discord, os, random, json
 from discord.ext import commands
 from dotenv import load_dotenv
-# Unused imports: datetime, random, json, asyncio
+# Unused imports: datetime, asyncio
 
 
 ### SETUP ###
 # Gets mokeybot.py file location for future reference
 file_location = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+
 
 # Loads .env variables (not uploaded to github for obvious reasons)
 load_dotenv()
@@ -14,9 +15,10 @@ load_dotenv()
 # Grabs TOKEN and GUILD from .env 
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
-
-# Creates new command prefix for calling the bot
-bot = commands.Bot(command_prefix="!")
+GUILD_ID = os.getenv('GUILD_ID')
+# Creates new command prefix for calling the bot, enables intents as well
+intents = discord.Intents.default()
+bot = commands.Bot(command_prefix="!", intents=intents)
 
 # Creates easy embed function
 def send_msg(msg):
@@ -39,8 +41,8 @@ async def on_ready():
     print('Logged in')
     print(f"Username: {bot.user.name}")
     print('-----')
-    # Unused command to change status on discord
-    # await bot.change_presence(activity=discord.Game(name=""))
+    # Command to change status on discord
+    await bot.change_presence(activity=discord.Game(name="hugging pogchamps"))
 
 # Shows source for bot
 @bot.command(
@@ -71,8 +73,32 @@ async def echo(ctx, *args):
         resp = resp + " " + arg
     await ctx.send(embed = send_msg(resp))
 
+# Leftover command definition from testing for list_bonks
+@bot.command(
+    help="test"
+)
+async def test(ctx):
+    resp = ""
+    # guild = bot.get_guild(GUILD_ID)
+    # print(guild.members)
+    # for member in guild.members:
+    #     print (member)
+    async for member in ctx.guild.fetch_members(limit=None):
+        print("{},{}".format(member,member.id))
+    await ctx.send(embed = send_msg(resp))
 
+
+# async def list_bonks(ctx):
+#     resp = ""
+#     guild = bot.get_guild(GUILD_ID)
+#     async for member in ctx.guild.fetch_memebers(limit=None):
+#         resp += f'{str(member)[:5]} has been bonked {str(bonktracker[member.id])} time(s)\n'
+#     # for key, value in bonktracker.items():
+#     #     resp += f'{str(value[0])} has been bonked {str(value[1])} time(s)\n'
+#     #     #print(value[0], value[1])
+#     await ctx.send(embed = send_msg(resp))
 # Catches command errors
+
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):

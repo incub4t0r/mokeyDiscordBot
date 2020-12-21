@@ -9,7 +9,7 @@ global bonktracker
 try:
     with open(os.path.join(file_location, 'bonktracker.json')) as f:
         bonktracker = json.load(f)
-    print("Loaded bonktracker.json")
+    print("Loaded bonktracker.json for bonktracker.py")
 except:
     print("Could not load bonktracker.json")
     bonktracker = {}
@@ -46,31 +46,45 @@ class Bonktracker(commands.Cog):
         resp = ""
         resp += f'{bonked} just got bonked!\n'
         for member in members:
-            temp = []
-            primary_id = str(member.id) 
+            # temp = []
+            primary_id = str(member.id)
             if primary_id not in bonktracker:
-                temp.append(str(member.name))
-                temp.append(0)
-                bonktracker[primary_id] = temp
-            bonktracker[primary_id][1] += 1
-            resp += f'{str(member)[:-5]} has been bonked {str(bonktracker[primary_id][1])} time(s)\n'
+                # temp.append(str(member.name))
+                # temp.append(0)
+                bonktracker[primary_id] = 0
+            bonktracker[primary_id] += 1
+            resp += f'{str(member)[:-5]} has been bonked {str(bonktracker[primary_id])} time(s)\n'
         _save()
         await ctx.send(embed = send_msg(resp))
 
-    # Creates a new bot command to list the number of bonks each user has
     @commands.command(
         help="List the number of bonks each user has",
         brief="List bonks per user"
-    )
-    async def test(self, ctx):
+    )    
+    async def list_bonks(self, ctx):
         resp = ""
-        for key, value in bonktracker.items():
-            resp += f'{str(value[0])} has been bonked {str(value[1])} time(s)\n'
-            #print(value[0], value[1])
+        resp2 = ""
+        for guild in self.bot.guilds:
+            async for member in guild.fetch_members(limit=None):
+                #print(member.id)
+                if str(member.id) in list(bonktracker.keys()):
+                    resp += f'{str(member).split("#")[0]} has been bonked {str(bonktracker[str(member.id)])} time(s)\n'
+                else:
+                    resp2 += f'{str(member).split("#")[0]} has not been bonked yet\n'
         await ctx.send(embed = send_msg(resp))
+        # await ctx.send(embed = send_msg(resp2))
+
+
 
 # https://discordpy.readthedocs.io/en/latest/faq.html#how-do-i-send-a-dm
 # for future bonk dms
+
+# example of list comprehension, was originally used for list_bonks
+# [print(key) for key, value in bonktracker.items()]
+
+# example of dict keys
+# print(list(bonktracker.keys()))
+
 
 def setup(bot):
     bot.add_cog(Bonktracker(bot))
