@@ -1,7 +1,8 @@
-import discord, os
+import discord, os, random, json
 from discord.ext import commands
 from dotenv import load_dotenv
 # Unused imports: datetime, random, json, asyncio
+
 
 ### SETUP ###
 # Gets mokeybot.py file location for future reference
@@ -29,6 +30,8 @@ try:
 except:
     print("Error loading bonktracker, bonktracker.py not found")
 
+
+
 ### COMMANDS ###
 # Logs in bot
 @bot.event
@@ -45,7 +48,7 @@ async def on_ready():
     brief="See the code"
 )
 async def source(ctx):
-    resp = 'https://github.com/incub4t0r/mokeyDiscordBot'
+    resp = 'Written by incub4t0r/43y3s\nhttps://github.com/incub4t0r/mokeyDiscordBot'
     await ctx.send(embed = send_msg(resp))
 
 # Ping pong
@@ -68,6 +71,7 @@ async def echo(ctx, *args):
         resp = resp + " " + arg
     await ctx.send(embed = send_msg(resp))
 
+
 # Catches command errors
 @bot.event
 async def on_command_error(ctx, error):
@@ -80,4 +84,4 @@ async def on_command_error(ctx, error):
 bot.run(TOKEN)
 
 # TODO
-# add bonk tracker
+# add bonk tracker --- DONE
