@@ -16,8 +16,8 @@ except:
 
 # Creates forcible save option
 def _save():    
-        with open(os.path.join(file_location, 'bonktracker.json'), 'w+') as f:
-            json.dump(bonktracker, f)
+    with open(os.path.join(file_location, 'bonktracker.json'), 'w+') as f:
+        json.dump(bonktracker, f)
 
 # Creates easy embed function
 def send_msg(msg):

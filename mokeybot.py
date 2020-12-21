@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 # Gets mokeybot.py file location for future reference
 file_location = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-
 # Loads .env variables (not uploaded to github for obvious reasons)
 load_dotenv()
 
@@ -16,6 +15,7 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 GUILD_ID = os.getenv('GUILD_ID')
+
 # Creates new command prefix for calling the bot, enables intents as well
 intents = discord.Intents.default()
 bot = commands.Bot(command_prefix="!", intents=intents)
@@ -25,13 +25,17 @@ def send_msg(msg):
     emb = discord.Embed(title=None, description=msg,color=0x957530)
     return emb
 
-# Attempts to load bonktracker module
-try:
-    bot.load_extension('bonktracker')
-    print("Loaded bonktracker.py")
-except:
-    print("Error loading bonktracker, bonktracker.py not found")
 
+# Attempts to load modules
+
+modules = ["bonktracker"]
+
+for cog in modules:
+    try:
+        bot.load_extension(f'cogs.{cog}')
+        print(f'Loaded {cog}.py')
+    except:
+        print(f'Error loading {cog}')
 
 
 ### COMMANDS ###
@@ -111,3 +115,10 @@ bot.run(TOKEN)
 
 # TODO
 # add bonk tracker --- DONE
+
+# NOTES
+
+# [print(cogname) for cogname in modules]
+
+# one line example for loading multiplle cogs
+# [bot.load_extension(f'cogs.{cogname}') for cogname in modules]
