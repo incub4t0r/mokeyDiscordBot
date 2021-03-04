@@ -92,17 +92,6 @@ async def test(ctx):
     await ctx.send(embed = send_msg(resp))
 
 
-# async def list_bonks(ctx):
-#     resp = ""
-#     guild = bot.get_guild(GUILD_ID)
-#     async for member in ctx.guild.fetch_memebers(limit=None):
-#         resp += f'{str(member)[:5]} has been bonked {str(bonktracker[member.id])} time(s)\n'
-#     # for key, value in bonktracker.items():
-#     #     resp += f'{str(value[0])} has been bonked {str(value[1])} time(s)\n'
-#     #     #print(value[0], value[1])
-#     await ctx.send(embed = send_msg(resp))
-# Catches command errors
-
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
@@ -113,12 +102,23 @@ async def on_command_error(ctx, error):
 
 bot.run(TOKEN)
 
-# TODO
+### TODO
 # add bonk tracker --- DONE
 
-# NOTES
+### NOTES
 
 # [print(cogname) for cogname in modules]
 
 # one line example for loading multiplle cogs
 # [bot.load_extension(f'cogs.{cogname}') for cogname in modules]
+
+# async def list_bonks(ctx):
+#     resp = ""
+#     guild = bot.get_guild(GUILD_ID)
+#     async for member in ctx.guild.fetch_memebers(limit=None):
+#         resp += f'{str(member)[:5]} has been bonked {str(bonktracker[member.id])} time(s)\n'
+#     # for key, value in bonktracker.items():
+#     #     resp += f'{str(value[0])} has been bonked {str(value[1])} time(s)\n'
+#     #     #print(value[0], value[1])
+#     await ctx.send(embed = send_msg(resp))
+# Catches command errors

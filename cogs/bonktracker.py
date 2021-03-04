@@ -66,7 +66,6 @@ class Bonktracker(commands.Cog):
         resp2 = ""
         for guild in self.bot.guilds:
             async for member in guild.fetch_members(limit=None):
-                #print(member.id)
                 if str(member.id) in list(bonktracker.keys()):
                     resp += f'{str(member).split("#")[0]} has been bonked {str(bonktracker[str(member.id)])} time(s)\n'
                 else:
@@ -74,6 +73,18 @@ class Bonktracker(commands.Cog):
         await ctx.send(embed = send_msg(resp))
         # await ctx.send(embed = send_msg(resp2))
 
+    # Creates a new bot command to list the number of bonks each user has
+    @commands.command(
+        help="List the number of bonks each user has",
+        brief="List bonks per user"
+    )
+    async def test2(self, ctx):
+        temp = sorted(bonktracker.items(), key=lambda item: item[1], reverse=True)
+        resp = ""
+        for key, value in temp:
+            resp += f'{key} has been bonked {value} time(s)\n'
+        await ctx.send(embed = send_msg(resp))
+    # https://thispointer.com/sort-a-dictionary-by-value-in-python-in-descending-ascending-order/
 
 
 # https://discordpy.readthedocs.io/en/latest/faq.html#how-do-i-send-a-dm
