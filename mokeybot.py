@@ -28,7 +28,7 @@ def send_msg(msg):
 
 # Attempts to load modules
 
-modules = ["bonktracker"]
+modules = ["bonktracker", "stonks"]
 
 for cog in modules:
     try:
